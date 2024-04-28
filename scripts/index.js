@@ -23,3 +23,11 @@ function createCard(cardData, removeCard) {
 function removeCard(cardElement) {
   cardElement.remove();
 }
+
+// @todo: Вывести карточки на страницу
+const placesList = document.querySelector(".places__list");
+
+initialCards.forEach((cardData) => {
+  const cardElement = createCard(cardData, removeCard);
+  placesList.append(cardElement);
+});
