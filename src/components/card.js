@@ -1,8 +1,9 @@
+import { initialCards } from "../pages/cards.js";
 // @todo: Темплейт карточки
-const cardTemplate = document.querySelector("#card-template");
+export const cardTemplate = document.querySelector("#card-template");
 
 // @todo: Функция создания карточки
-function createCard(cardData, removeCard) {
+export function createCard(cardData, removeCard) {
   const cardClone = cardTemplate.content.cloneNode(true);
   const cardTitle = cardClone.querySelector(".card__title");
   const cardImage = cardClone.querySelector(".card__image");
@@ -20,7 +21,7 @@ function createCard(cardData, removeCard) {
 }
 
 // @todo: Функция удаления карточки
-function removeCard(cardElement) {
+export function removeCard(cardElement) {
   cardElement.remove();
 }
 
