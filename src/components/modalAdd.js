@@ -13,6 +13,12 @@ function closeModalAdd() {
   modalAdd.classList.remove("popup_is-opened");
 }
 
+document.addEventListener("click", (evt) => {
+  if (evt.target === modalAdd) {
+    closeModalAdd();
+  }
+});
+
 // Слушатели событий
 openButtonAdd.addEventListener("click", openModalAdd);
 closeButtonAdd.addEventListener("click", closeModalAdd);

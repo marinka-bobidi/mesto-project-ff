@@ -19,10 +19,17 @@ function closeModalImage() {
   modalImage.classList.remove("popup_is-opened");
 }
 
+document.addEventListener("click", (evt) => {
+  if (evt.target === modalImage) {
+    closeModalImage();
+  }
+});
+
 // Слушатели событий
 cardImages.forEach((image) => {
   image.addEventListener("click", openModalImage);
 });
+
 closeButtonImage.addEventListener("click", closeModalImage);
 
 // Export

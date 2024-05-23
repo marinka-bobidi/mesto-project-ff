@@ -13,6 +13,12 @@ function closeModalEdit() {
   modalEdit.classList.remove("popup_is-opened");
 }
 
+document.addEventListener("click", (evt) => {
+  if (evt.target === modalEdit) {
+    closeModalEdit();
+  }
+});
+
 // Слушатели событий
 openButtonEdit.addEventListener("click", openModalEdit);
 closeButtonEdit.addEventListener("click", closeModalEdit);
