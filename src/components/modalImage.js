@@ -18,9 +18,14 @@ function openModalImage(event) {
 function closeModalImage() {
   modalImage.classList.remove("popup_is-opened");
 }
-
+// Закрытие через оверлей и esc
 document.addEventListener("click", (evt) => {
   if (evt.target === modalImage) {
+    closeModalImage();
+  }
+});
+document.addEventListener("keydown", (evt) => {
+  if (evt.key === "Escape") {
     closeModalImage();
   }
 });

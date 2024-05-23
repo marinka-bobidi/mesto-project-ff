@@ -31,7 +31,7 @@ export function removeCard(cardElement) {
 }
 
 // @todo: Вывести карточки на страницу
-const placesList = document.querySelector(".places__list");
+export const placesList = document.querySelector(".places__list");
 
 initialCards.forEach((cardData) => {
   const cardElement = createCard(cardData, removeCard, openModalImage);
