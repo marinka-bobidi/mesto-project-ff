@@ -1,5 +1,10 @@
 import "../pages/index.css";
-import { cardTemplate, createCard, removeCard } from "../components/card.js";
+import {
+  cardTemplate,
+  createCard,
+  removeCard,
+  handleLikeClick,
+} from "../components/card.js";
 import {
   modalEdit,
   closeButtonEdit,

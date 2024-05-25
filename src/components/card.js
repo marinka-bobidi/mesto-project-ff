@@ -11,12 +11,13 @@ export function createCard(cardData, removeCard, handleImageClick) {
   const cardImage = cardClone.querySelector(".card__image");
   const deleteButton = cardClone.querySelector(".card__delete-button");
   const cardElement = cardClone.querySelector(".card");
+  const likeButton = cardClone.querySelector(".card__like-button");
 
   cardTitle.textContent = cardData.name;
   cardImage.src = cardData.link;
 
-  // Добавление обработчика событий для изображения
   cardImage.addEventListener("click", handleImageClick);
+  likeButton.addEventListener("click", handleLikeClick); // Добавляем обработчик событий к кнопке лайка
 
   deleteButton.addEventListener("click", function () {
     removeCard(cardElement);
@@ -34,6 +35,16 @@ export function removeCard(cardElement) {
 export const placesList = document.querySelector(".places__list");
 
 initialCards.forEach((cardData) => {
-  const cardElement = createCard(cardData, removeCard, openModalImage);
+  const cardElement = createCard(
+    cardData,
+    removeCard,
+    openModalImage,
+    handleLikeClick
+  );
   placesList.append(cardElement);
 });
+
+// Обработчик клика по лайку
+export function handleLikeClick(event) {
+  event.target.classList.toggle("card__like-button_is-active");
+}
