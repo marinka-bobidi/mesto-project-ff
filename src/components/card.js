@@ -1,11 +1,11 @@
 import { initialCards } from "../pages/cards.js";
 import { openModalImage } from "../components/modalImage.js";
 
-// @todo: Темплейт карточки
-export const cardTemplate = document.querySelector("#card-template");
+//  Темплейт карточки
+const cardTemplate = document.querySelector("#card-template");
 
-// @todo: Функция создания карточки
-export function createCard(cardData, removeCard, handleImageClick) {
+// Функция создания карточки
+function createCard(cardData, removeCard, handleImageClick) {
   const cardClone = cardTemplate.content.cloneNode(true);
   const cardTitle = cardClone.querySelector(".card__title");
   const cardImage = cardClone.querySelector(".card__image");
@@ -17,7 +17,7 @@ export function createCard(cardData, removeCard, handleImageClick) {
   cardImage.src = cardData.link;
 
   cardImage.addEventListener("click", handleImageClick);
-  likeButton.addEventListener("click", handleLikeClick); // Добавляем обработчик событий к кнопке лайка
+  likeButton.addEventListener("click", handleLikeClick);
 
   deleteButton.addEventListener("click", function () {
     removeCard(cardElement);
@@ -26,13 +26,18 @@ export function createCard(cardData, removeCard, handleImageClick) {
   return cardClone;
 }
 
-// @todo: Функция удаления карточки
-export function removeCard(cardElement) {
+// Обработчик лайкa
+function handleLikeClick(event) {
+  event.target.classList.toggle("card__like-button_is-active");
+}
+
+//  Функция удаления карточки
+function removeCard(cardElement) {
   cardElement.remove();
 }
 
-// @todo: Вывести карточки на страницу
-export const placesList = document.querySelector(".places__list");
+//  Вывести карточки на страницу
+const placesList = document.querySelector(".places__list");
 
 initialCards.forEach((cardData) => {
   const cardElement = createCard(
@@ -44,7 +49,4 @@ initialCards.forEach((cardData) => {
   placesList.append(cardElement);
 });
 
-// Обработчик клика по лайку
-export function handleLikeClick(event) {
-  event.target.classList.toggle("card__like-button_is-active");
-}
+export { createCard, removeCard, handleLikeClick, placesList };
