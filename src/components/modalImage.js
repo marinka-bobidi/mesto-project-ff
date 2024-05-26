@@ -1,5 +1,5 @@
 import { modalImage, popupImage, popupImageName } from "../pages/index.js";
-import { closeModal } from "./modal.js";
+import { closeModal, openModal } from "./modal.js";
 
 const cardImages = document.querySelectorAll(".card__image");
 
@@ -9,7 +9,7 @@ function openModalImage(event) {
   const targetTitle = targetCard.querySelector(".card__title"); // заголовок карточки
   popupImage.src = targetImage.src; // устанавливаем src изображения в модальном окне
   popupImageName.textContent = targetTitle.textContent; // устанавливаем текст подписи в модальном окне
-  modalImage.classList.add("popup_is-opened");
+  openModal(modalImage);
 }
 
 function closeModalImage() {

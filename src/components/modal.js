@@ -1,6 +1,8 @@
-//Открытие окна
 function openModal(modal) {
-  modal.classList.add("popup_is-opened");
+  modal.classList.add("popup_is-animated");
+  setTimeout(() => {
+    modal.classList.add("popup_is-opened");
+  }, 100);
 }
 
 //Закрытие окна
