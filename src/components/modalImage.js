@@ -16,8 +16,4 @@ function closeModalImage() {
   closeModal(modalImage);
 }
 
-cardImages.forEach((image) => {
-  image.addEventListener("click", openModalImage);
-});
-
 export { openModalImage, closeModalImage };

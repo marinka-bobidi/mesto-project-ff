@@ -1,7 +1,13 @@
 import { closeModal } from "../components/modal.js";
-import { placesList, createCard, removeCard } from "../components/card.js";
+import { createCard, removeCard } from "../components/card.js";
 import { openModalImage } from "../components/modalImage.js";
-import { nameInputAdd, jobInputAdd, modalAdd } from "../pages/index.js";
+import {
+  nameInputAdd,
+  jobInputAdd,
+  formElementAdd,
+  modalAdd,
+  placesList,
+} from "../pages/index.js";
 
 function addFormSubmit(evt) {
   evt.preventDefault();
@@ -14,8 +20,7 @@ function addFormSubmit(evt) {
   const newCardElement = createCard(newCardData, removeCard, openModalImage);
   placesList.prepend(newCardElement);
 
-  nameInputAdd.value = "";
-  jobInputAdd.value = "";
+  formElementAdd.reset();
 
   closeModal(modalAdd);
 }

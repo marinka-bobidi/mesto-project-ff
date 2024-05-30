@@ -11,7 +11,6 @@ const formElement = document.querySelector(".popup__form");
 
 function handleFormSubmit(evt) {
   evt.preventDefault();
-
   nameProfile.textContent = nameInputEdit.value;
   jobProfile.textContent = jobInputEdit.value;
 
