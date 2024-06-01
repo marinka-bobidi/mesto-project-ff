@@ -17,4 +17,11 @@ function handleFormSubmit(evt) {
   closeModal(modalEdit);
 }
 
+function onOpenCallback() {
+  nameInputEdit.value = nameProfile.textContent;
+  jobInputEdit.value = jobProfile.textContent;
+}
+
 formElement.addEventListener("submit", handleFormSubmit);
+
+export { onOpenCallback };

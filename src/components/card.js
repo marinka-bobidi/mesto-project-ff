@@ -1,5 +1,3 @@
-import { openModalImage } from "../components/modalImage.js";
-
 //  Темплейт карточки
 const cardTemplate = document.querySelector("#card-template");
 

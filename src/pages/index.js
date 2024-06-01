@@ -9,6 +9,7 @@ import { addModalEventListeners } from "../components/modal.js";
 import { addFormSubmit } from "../components/modalAdd.js";
 import { closeModalImage, openModalImage } from "../components/modalImage.js";
 import { createCard, removeCard, handleLikeClick } from "../components/card.js";
+import { onOpenCallback } from "../components/modalEdit.js";
 
 //                                    actions
 // VAR card.js
@@ -40,8 +41,14 @@ const nameInputAdd = document.querySelector(".popup__input_type_card-name");
 const jobInputAdd = document.querySelector(".popup__input_type_url");
 
 // Слушатели событий
+
 addModalEventListeners(modalAdd, openButtonAdd, closeButtonAdd);
-addModalEventListeners(modalEdit, openButtonEdit, closeButtonEdit);
+addModalEventListeners(
+  modalEdit,
+  openButtonEdit,
+  closeButtonEdit,
+  onOpenCallback
+);
 addModalEventListeners(modalImage, popupImage, closeButtonImage);
 
 // Обработчик «отправки» формы
