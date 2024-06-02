@@ -8,8 +8,8 @@ function openModal(modal) {
 
 //closeModalByEsc
 function closeModalByEsc(evt) {
-  const modal = document.querySelector(".popup_is-opened");
   if (evt.key === "Escape") {
+    const modal = document.querySelector(".popup_is-opened");
     closeModal(modal);
   }
 }
