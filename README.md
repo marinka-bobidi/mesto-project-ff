@@ -1,4 +1,6 @@
 # Проектная работа Mesto
 
 ## Филиппова Марина
-https://github.com/marinka-bobidi/mesto-project-ff.git
+
+Репозиторий на GitHub: https://github.com/marinka-bobidi/mesto-project-ff.git
+Публикация пректа: https://marinka-bobidi.github.io/mesto-project-ff/

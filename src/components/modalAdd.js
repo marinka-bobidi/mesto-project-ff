@@ -1,6 +1,5 @@
 import { closeModal } from "../components/modal.js";
-import { createCard, removeCard } from "../components/card.js";
-import { openModalImage } from "../components/modalImage.js";
+import { createCardHttp } from "../components/api.js";
 import {
   nameInputAdd,
   jobInputAdd,
@@ -17,12 +16,16 @@ function addFormSubmit(evt) {
     link: jobInputAdd.value,
   };
 
-  const newCardElement = createCard(newCardData, removeCard, openModalImage);
-  placesList.prepend(newCardElement);
-
+  createCardHttp(
+    newCardData.name,
+    newCardData.link,
+    formElementAdd.querySelector("button")
+  ).then(() => {
+    setTimeout(() => {
+      closeModal(modalAdd);
+    }, 1000);
+  });
   formElementAdd.reset();
-
-  closeModal(modalAdd);
 }
 
 export { addFormSubmit };
