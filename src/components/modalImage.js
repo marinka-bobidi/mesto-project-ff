@@ -1,9 +1,11 @@
-import { modalImage, popupImage, popupImageName } from "../pages/index.js";
-import { closeModal, openModal } from "./modal.js";
-
-const cardImages = document.querySelectorAll(".card__image");
-
-function openModalImage(event) {
+function openModalImage(
+  event,
+  openModal,
+  modalImage,
+  popupImage,
+  popupImageName
+) {
+  var cardImages = document.querySelectorAll(".card__image");
   const targetImage = event.target; // изображение, на которое было нажато
   const targetCard = targetImage.closest(".card"); // карточка, содержащая изображение
   const targetTitle = targetCard.querySelector(".card__title"); // заголовок карточки
@@ -12,7 +14,7 @@ function openModalImage(event) {
   openModal(modalImage);
 }
 
-function closeModalImage() {
+function closeModalImage(closeModal) {
   closeModal(modalImage);
 }
 

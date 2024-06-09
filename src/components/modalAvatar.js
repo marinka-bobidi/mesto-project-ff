@@ -1,23 +1,29 @@
-import {
+function avatarFormSubmit(
+  evt,
   imageProfile,
   modalAvatar,
   nameInputAvatar,
-  avatarForm,
-} from "../pages/index.js";
-import { editAvatarHttp } from "../components/api.js";
-import { closeModal } from "../components/modal.js";
-
-function avatarFormSubmit(evt) {
+  Http,
+  closeFunction
+) {
   evt.preventDefault();
-  const newAvatarData = {
+  var newAvatarData = {
     avatar: nameInputAvatar.value,
   };
-  editAvatarHttp(newAvatarData, avatarForm.querySelector("button")).then(
-    setTimeout(() => {
+  var avatarButtonSubmit = modalAvatar
+    .querySelector(".popup__form")
+    .querySelector(".popup__button");
+  avatarButtonSubmit.textContent = "Загрузка...";
+  Http(newAvatarData)
+    .then(() => {
       imageProfile.src = nameInputAvatar.value;
-      closeModal(modalAvatar);
-    }, 1000)
-  );
+      closeFunction(modalAvatar);
+      avatarButtonSubmit.textContent = "Сохранить";
+      evt.target.reset();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 export { avatarFormSubmit };

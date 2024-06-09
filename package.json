@@ -12,8 +12,7 @@
   "author": "Marina Filippova",
   "license": "ISC",
   "dependencies": {
-    "core-js": "^3.37.0",
-    "jquery": "^3.7.1"
+    "core-js": "^3.37.0"
   },
   "devDependencies": {
     "@babel/core": "^7.24.5",

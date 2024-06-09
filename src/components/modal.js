@@ -1,22 +1,18 @@
-import { clearValidationErrors } from "../components/validity.js";
+// Установка модификатора при загрузке приложения
+document.querySelectorAll(".popup").forEach((popup) => {
+  popup.classList.add("popup_is-animated");
+});
 
+//Открытие окна
 function openModal(modal) {
-  if (modal.querySelector("form") !== null) {
-    modal.querySelector("form").querySelector("button").textContent =
-      "Сохранить";
-  }
-  modal.classList.add("popup_is-animated");
-  setTimeout(() => {
-    modal.classList.add("popup_is-opened");
-  }, 100);
+  modal.classList.add("popup_is-opened");
   document.addEventListener("keydown", closeModalByEsc);
 }
 
-//Закрытие окна
+// Закрытие окна
 const formElementus = document.querySelectorAll(".popup__form");
 
 function closeModal(modal) {
-  clearValidationErrors(formElementus);
   modal.classList.remove("popup_is-opened");
   document.removeEventListener("keydown", closeModalByEsc);
 }
@@ -37,11 +33,12 @@ function addModalEventListeners(
   AdditionalFunction = undefined
 ) {
   openButton.addEventListener("click", () => openModal(modal));
-  closeButton.addEventListener("click", () => closeModal(modal));
-  if (typeof AdditionalFunction === "function") {
-    AdditionalFunction();
-  }
-
+  closeButton.addEventListener("click", () => {
+    closeModal(modal);
+    if (typeof AdditionalFunction === "function") {
+      AdditionalFunction();
+    }
+  });
   //Закрытие по оверлей
   modal.addEventListener("click", (evt) => {
     if (evt.target === modal) {
