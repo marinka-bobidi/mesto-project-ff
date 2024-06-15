@@ -1,5 +1,4 @@
 import { modalImage, popupImage, popupImageName } from "../pages/index.js";
-
 import { closeModal, openModal } from "./modal.js";
 
 const cardImages = document.querySelectorAll(".card__image");
@@ -18,7 +17,7 @@ function openModalImage(event) {
   openModal(modalImage);
 }
 
-function closeModalImage() {
+function closeModalImage(closeModal) {
   closeModal(modalImage);
 }
 
