@@ -4,11 +4,17 @@ import "../components/modalAdd.js";
 import "../components/modalEdit.js";
 import "../components/card.js";
 
+import { initialCards } from "../pages/cards.js";
 import { addModalEventListeners } from "../components/modal.js";
 import { addFormSubmit } from "../components/modalAdd.js";
 import { closeModalImage, openModalImage } from "../components/modalImage.js";
+import { createCard, removeCard, handleLikeClick } from "../components/card.js";
+import { onOpenCallback } from "../components/modalEdit.js";
 
 //                                    actions
+// VAR card.js
+const placesList = document.querySelector(".places__list");
+
 // VAR modalAdd.js
 const modalAdd = document.querySelector(".popup_type_new-card");
 const openButtonAdd = document.querySelector(".profile__add-button");
@@ -35,13 +41,30 @@ const nameInputAdd = document.querySelector(".popup__input_type_card-name");
 const jobInputAdd = document.querySelector(".popup__input_type_url");
 
 // Слушатели событий
+
 addModalEventListeners(modalAdd, openButtonAdd, closeButtonAdd);
-addModalEventListeners(modalEdit, openButtonEdit, closeButtonEdit);
+addModalEventListeners(
+  modalEdit,
+  openButtonEdit,
+  closeButtonEdit,
+  onOpenCallback
+);
 addModalEventListeners(modalImage, popupImage, closeButtonImage);
 
 // Обработчик «отправки» формы
 formElementAdd.addEventListener("submit", addFormSubmit);
 closeButtonImage.addEventListener("click", closeModalImage);
+
+//Инициализация карточек
+initialCards.forEach((cardData) => {
+  const cardElement = createCard(
+    cardData,
+    removeCard,
+    openModalImage,
+    handleLikeClick
+  );
+  placesList.append(cardElement);
+});
 
 //Export
 export {
@@ -50,10 +73,12 @@ export {
   nameProfile,
   jobProfile,
   nameInputAdd,
+  formElementAdd,
   jobInputAdd,
   modalAdd,
   modalEdit,
   modalImage,
   popupImage,
   popupImageName,
+  placesList,
 };
