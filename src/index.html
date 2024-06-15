@@ -10,6 +10,7 @@
     />
 
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
     <title>Mesto</title>
   </head>
 
@@ -25,13 +26,19 @@
 
       <main class="content">
         <section class="profile page__section">
-          <div class="profile__avatar-edit">
-            <img src="" alt="Загрузка..." class="profile__image" />
+          <div>
+            <img
+              src="<%=require('../src/images/avatar.jpg')%>"
+              alt="Аватар пользователя"
+              class="profile__image"
+            />
           </div>
 
           <div class="profile__info">
             <h1 class="profile__title">Жак-Ив Кусто</h1>
+
             <button class="profile__edit-button" type="button"></button>
+
             <p class="profile__description">Исследователь океана</p>
           </div>
 
@@ -58,22 +65,18 @@
               type="text"
               name="name"
               class="popup__input popup__input_type_name"
-              id="name__input"
-              data-text="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
               placeholder="Имя"
               required
-              minlength="2"
-              maxlength="40"
             />
+
             <input
               type="text"
               name="description"
               class="popup__input popup__input_type_description"
-              id="description__input"
-              data-text="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
               placeholder="Занятие"
               required
             />
+
             <button type="submit" class="button popup__button">
               Сохранить
             </button>
@@ -89,24 +92,21 @@
 
           <form class="popup__form" name="new-place">
             <input
-              id="place__input"
               type="text"
               name="place-name"
               class="popup__input popup__input_type_card-name"
-              data-text="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
               placeholder="Название"
               required
-              minlength="2"
-              maxlength="30"
             />
+
             <input
-              id="image__input"
               type="url"
               name="link"
               class="popup__input popup__input_type_url"
               placeholder="Ссылка на картинку"
               required
             />
+
             <button type="submit" class="button popup__button">
               Сохранить
             </button>
@@ -124,6 +124,7 @@
         </div>
       </div>
     </div>
+
     <template id="card-template">
       <li class="places__item card">
         <img class="card__image" src="" alt="" />
@@ -132,8 +133,8 @@
 
         <div class="card__description">
           <h2 class="card__title"></h2>
+
           <button type="button" class="card__like-button"></button>
-          <div class="like__count"></div>
         </div>
       </li>
     </template>
