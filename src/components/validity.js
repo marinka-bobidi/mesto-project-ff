@@ -1,128 +1,69 @@
-import { handleFormSubmit } from "../pages/index.js";
+import { handleFormSubmit } from "../components/modalEdit.js";
 
-const formButton = document.querySelector(".popup__button");
-
-const enableValidation = (settings) => {
-  const formList = Array.from(
-    document.querySelectorAll(`.${settings.formSelector}`)
-  );
-  formList.forEach((formElement) => {
-    setEventListeners(formElement, settings);
-  });
-};
-
-// Реализация валидности формы
-const setEventListeners = (formElement, settings) => {
-  const inputList = Array.from(
-    formElement.querySelectorAll(`.${settings.inputSelector}`)
-  );
-  inputList.forEach((inputElement) => {
-    checkInputValidity(formElement, inputElement, settings);
-    inputElement.addEventListener("input", function () {
-      checkInputValidity(formElement, inputElement, settings);
-    });
-  });
-};
-
-const showInputError = (formElement, inputElement, errorMessage, settings) => {
+const showInputError = (formElement, inputElement, errorMessage) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add(settings.inputErrorClass);
+  inputElement.classList.add("popup__input_error");
   errorElement.textContent = errorMessage;
-  errorElement.classList.add(settings.errorClass);
+  errorElement.classList.add("form__input-error_active");
 };
 
-const symbolInputError = (formElement, inputElement, settings) => {
+const hideInputError = (formElement, inputElement) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add(settings.inputErrorClass);
-  errorElement.textContent = inputElement.dataset.text;
-  errorElement.classList.add(settings.errorClass);
-};
-
-const buttonUnactive = (formElement, inputElement, settings) => {
-  let popupButton = formElement.querySelector(".popup__button");
-  try {
-    popupButton.classList.remove(settings.submitButton);
-    popupButton.classList.add(settings.unactiveButtonClass);
-  } catch {}
-};
-
-const hideInputError = (formElement, inputElement, settings) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove(settings.inputErrorClass);
-  errorElement.classList.remove(settings.errorClass);
+  inputElement.classList.remove("popup__input_error");
+  errorElement.classList.remove("form__input-error_active");
   errorElement.textContent = "";
 };
 
-// Методы изменения input button, border
-const inputStyleUnactive = (formElement, inputElement, settings) => {
-  let popupButton = formElement.querySelector(".popup__button");
-  inputElement.classList.remove(settings.inputSelector);
-  inputElement.classList.add(settings.inputErrorClass);
-  try {
-    popupButton.classList.remove(settings.submitButton);
-    popupButton.classList.add(settings.unactiveButtonClass);
-  } catch {}
-  formElement.removeEventListener("submit", handleFormSubmit);
-};
-
-const inputStyleActive = (formElement, inputElement, settings) => {
-  const popupButton = formElement.querySelector("button");
-  inputElement.classList.add(settings.inputSelector);
-  inputElement.classList.remove(settings.inputErrorClass);
-  try {
-    popupButton.classList.add(settings.submitButton);
-    popupButton.classList.remove(settings.unactiveButtonClass);
-  } catch {}
-  formElement.addEventListener("submit", handleFormSubmit);
-};
-
-// Проверка валидности ввода
-const checkInputValidity = (formElement, inputElement, settings) => {
-  const isOnlyLettersAndSymbols = /^[a-zA-Zа-яА-Я\s\-]+$/.test(
-    inputElement.value
-  );
-  if (inputElement.value === "") {
-    inputStyleActive(formElement, inputElement, settings);
-    buttonUnactive(formElement, inputElement, settings);
-  } else if (!isOnlyLettersAndSymbols & (inputElement.type !== "url")) {
-    symbolInputError(formElement, inputElement, settings);
-    inputStyleUnactive(formElement, inputElement, settings, false);
+const checkInputValidity = (formElement, inputElement) => {
+  if (inputElement.validity.patternMismatch) {
+    inputElement.setCustomValidity(
+      "Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
+    );
   } else {
-    if (!inputElement.validity.valid) {
-      showInputError(
-        formElement,
-        inputElement,
-        inputElement.validationMessage,
-        settings
-      );
-      inputStyleUnactive(formElement, inputElement, settings);
-    } else {
-      inputStyleActive(formElement, inputElement, settings);
-      hideInputError(formElement, inputElement, settings);
-    }
+    inputElement.setCustomValidity("");
+  }
+  if (!inputElement.validity.valid) {
+    showInputError(formElement, inputElement, inputElement.validationMessage);
+  } else {
+    hideInputError(formElement, inputElement);
   }
 };
 
-// Функция для очистки ошибок валидации
-const clearValidationErrors = (settings) => {
-  const formElements = document.querySelectorAll(`.${settings.formSelector}`);
-  formElements.forEach((formElement) => {
-    const inputList = Array.from(
-      formElement.querySelectorAll(`.${settings.inputSelector}`)
-    );
-    inputList.forEach((inputElement) => {
-      hideInputError(formElement, inputElement, settings);
-      buttonUnactive(formElement, inputElement, settings);
+const setEventListeners = (formElement) => {
+  const inputList = Array.from(formElement.querySelectorAll(".popup__input"));
+  const buttonElement = formElement.querySelector(".popup__button");
+  toggleButtonState(inputList, buttonElement);
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener("input", function () {
+      checkInputValidity(formElement, inputElement);
+      toggleButtonState(inputList, buttonElement);
     });
   });
 };
 
-export {
-  showInputError,
-  symbolInputError,
-  hideInputError,
-  setEventListeners,
-  checkInputValidity,
-  clearValidationErrors,
-  enableValidation,
+const enableValidation = (formElement) => {
+  const formList = Array.from(document.querySelectorAll(".popup__form"));
+  formList.forEach((formElement) => {
+    formElement.addEventListener("submit", (evt) => {
+      evt.preventDefault();
+    });
+    setEventListeners(formElement);
+  });
 };
+
+const hasInvalidInput = (inputList) => {
+  return inputList.some((inputElement) => {
+    return !inputElement.validity.valid;
+  });
+};
+const toggleButtonState = (inputList, buttonElement) => {
+  if (hasInvalidInput(inputList)) {
+    buttonElement.classList.add("popup__button_unactive");
+    buttonElement.removeEventListener("click", handleFormSubmit);
+  } else {
+    buttonElement.classList.remove("popup__button_unactive");
+    buttonElement.addEventListener("click", handleFormSubmit);
+  }
+};
+
+enableValidation();

@@ -5,15 +5,24 @@ document.querySelectorAll(".popup").forEach((popup) => {
 
 //Открытие окна
 function openModal(modal) {
-  modal.classList.add("popup_is-animated");
-  setTimeout(() => {
-    modal.classList.add("popup_is-opened");
-  }, 100);
+  modal.classList.add("popup_is-opened");
+  document.addEventListener("keydown", closeModalByEsc);
 }
 
 //Закрытие окна
 function closeModal(modal) {
   modal.classList.remove("popup_is-opened");
+  document.removeEventListener("keydown", closeModalByEsc);
+}
+
+//closeModalByEsc
+
+function closeModalByEsc(evt) {
+  if (evt.key === "Escape") {
+    const modal = document.querySelector(".popup_is-opened");
+
+    closeModal(modal);
+  }
 }
 
 //Слушатели событий
