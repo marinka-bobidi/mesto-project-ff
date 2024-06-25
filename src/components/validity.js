@@ -1,12 +1,15 @@
 import { handleFormSubmit } from "../components/modalEdit.js";
+import { addFormSubmit } from "../components/modalAdd.js";
 
+// Функция отображает сообщение об ошибке для элемента ввода внутри формы.
 const showInputError = (formElement, inputElement, errorMessage) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.add("popup__input_error");
-  errorElement.textContent = errorMessage;
   errorElement.classList.add("form__input-error_active");
+  errorElement.textContent = errorMessage;
 };
 
+// Функция скрывает сообщение об ошибке для элемента ввода
 const hideInputError = (formElement, inputElement) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.remove("popup__input_error");
@@ -14,6 +17,7 @@ const hideInputError = (formElement, inputElement) => {
   errorElement.textContent = "";
 };
 
+// Функция проверяет валидность значения ввода
 const checkInputValidity = (formElement, inputElement) => {
   if (inputElement.validity.patternMismatch) {
     inputElement.setCustomValidity(
@@ -29,6 +33,7 @@ const checkInputValidity = (formElement, inputElement) => {
   }
 };
 
+// Функция добавляет слушатели событий ввода для каждого элемента ввода внутри формы
 const setEventListeners = (formElement) => {
   const inputList = Array.from(formElement.querySelectorAll(".popup__input"));
   const buttonElement = formElement.querySelector(".popup__button");
@@ -41,6 +46,7 @@ const setEventListeners = (formElement) => {
   });
 };
 
+// Функция включает валидацию для всех форм на странице
 const enableValidation = (formElement) => {
   const formList = Array.from(document.querySelectorAll(".popup__form"));
   formList.forEach((formElement) => {
@@ -51,19 +57,46 @@ const enableValidation = (formElement) => {
   });
 };
 
+// Функция проверяет, есть ли в списке недопустимые элементы ввода
 const hasInvalidInput = (inputList) => {
   return inputList.some((inputElement) => {
     return !inputElement.validity.valid;
   });
 };
-const toggleButtonState = (inputList, buttonElement) => {
-  if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add("popup__button_unactive");
-    buttonElement.removeEventListener("click", handleFormSubmit);
-  } else {
-    buttonElement.classList.remove("popup__button_unactive");
-    buttonElement.addEventListener("click", handleFormSubmit);
+
+// Функция определяет, какой обработчик отправки формы использовать в зависимости от типа модального окна
+const formSubmitcheck = (buttonElement) => {
+  const modal = buttonElement.closest(".popup");
+  if (modal.dataset.modalType === "edit") {
+    return handleFormSubmit;
+  }
+  if (modal.dataset.modalType === "add") {
+    return addFormSubmit;
   }
 };
 
-enableValidation();
+// Функция переключает состояние кнопки на основе валидности ввода
+const toggleButtonState = (inputList, buttonElement) => {
+  if (hasInvalidInput(inputList)) {
+    buttonElement.classList.add("popup__button_unactive");
+    buttonElement.removeEventListener("click", formSubmitcheck(buttonElement));
+  } else {
+    buttonElement.classList.remove("popup__button_unactive");
+    buttonElement.addEventListener("click", formSubmitcheck(buttonElement));
+  }
+};
+
+// Функция очищает сообщение об ошибке при закрвтии окна
+const clearValidation = (modal) => {
+  const popupForm = modal.querySelector(".popup__form");
+  if (popupForm !== null) {
+    const inputList = popupForm.querySelectorAll(".popup__input");
+    inputList.forEach((newInputList) => {
+      hideInputError(popupForm, newInputList);
+      newInputList.value = "";
+    });
+  }
+};
+
+// Export
+export { enableValidation, clearValidation };

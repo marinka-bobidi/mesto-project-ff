@@ -1,8 +1,6 @@
-import { initialCards } from "../pages/cards.js";
-import { openModalImage } from "../components/modalImage.js";
-
-//  Темплейт карточки
+// VAR card.js
 const cardTemplate = document.querySelector("#card-template");
+const placesList = document.querySelector(".places__list");
 
 // Функция создания карточки
 function createCard(cardData, removeCard, handleImageClick) {
@@ -32,22 +30,8 @@ function handleLikeClick(event) {
 }
 
 //  Функция удаления карточки
-
 function removeCard(cardElement) {
   cardElement.remove();
 }
-
-//  Вывести карточки на страницу
-const placesList = document.querySelector(".places__list");
-
-initialCards.forEach((cardData) => {
-  const cardElement = createCard(
-    cardData,
-    removeCard,
-    openModalImage,
-    handleLikeClick
-  );
-  placesList.append(cardElement);
-});
 
 export { createCard, removeCard, handleLikeClick, placesList };

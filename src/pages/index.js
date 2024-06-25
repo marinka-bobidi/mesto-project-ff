@@ -5,81 +5,85 @@ import "../components/modalEdit.js";
 import "../components/card.js";
 import "../components/validity.js";
 
-import { initialCards } from "../pages/cards.js";
 import { addModalEventListeners } from "../components/modal.js";
-import { addFormSubmit } from "../components/modalAdd.js";
-import { closeModalImage, openModalImage } from "../components/modalImage.js";
-import { createCard, removeCard, handleLikeClick } from "../components/card.js";
-import { onOpenCallback } from "../components/modalEdit.js";
+import {
+  addFormSubmit,
+  modalAdd,
+  formElementAdd,
+} from "../components/modalAdd.js";
+import {
+  closeModalImage,
+  openModalImage,
+  modalImage,
+  popupImage,
+} from "../components/modalImage.js";
+import {
+  createCard,
+  removeCard,
+  handleLikeClick,
+  placesList,
+} from "../components/card.js";
+import {
+  onOpenCallback,
+  modalEdit,
+  nameProfile,
+  jobProfile,
+} from "../components/modalEdit.js";
+import { enableValidation } from "../components/validity.js";
+import { saveСhanges, promiseAll } from "../components/api.js";
 
 //                                    actions
-
-// VAR card.js
-const placesList = document.querySelector(".places__list");
 // VAR modalAdd.js
-const modalAdd = document.querySelector(".popup_type_new-card");
 const openButtonAdd = document.querySelector(".profile__add-button");
 const closeButtonAdd = modalAdd.querySelector(".popup__close");
-const formElementAdd = document.querySelector('.popup__form[name="new-place"]');
 
 // VAR modalEdit.js
-
-const modalEdit = document.querySelector(".popup_type_edit");
 const openButtonEdit = document.querySelector(".profile__edit-button");
 const closeButtonEdit = modalEdit.querySelector(".popup__close");
-const nameInputEdit = document.querySelector(".popup__input_type_name");
-const jobInputEdit = document.querySelector(".popup__input_type_description");
+const profileAvatar = document.querySelector(".profile__image");
 
 //VAR Modalimage.js
-const modalImage = document.querySelector(".popup_type_image");
-const popupImage = modalImage.querySelector(".popup__image");
-const popupImageName = modalImage.querySelector(".popup__caption");
 const closeButtonImage = modalImage.querySelector(".popup__close");
 
-// Элементы, куда должны быть вставлены значения полей
-const nameProfile = document.querySelector(".profile__title");
-const jobProfile = document.querySelector(".profile__description");
-const nameInputAdd = document.querySelector(".popup__input_type_card-name");
-const jobInputAdd = document.querySelector(".popup__input_type_url");
+//                               Вывести карточки на страницу
 
-// Слушатели событий
+//                                 Слушатели событий
+// Для modalAdd.js
 addModalEventListeners(modalAdd, openButtonAdd, closeButtonAdd);
+
+// Для modalEdit.js
 addModalEventListeners(
   modalEdit,
   openButtonEdit,
   closeButtonEdit,
   onOpenCallback
 );
+
+// Для modalImage.js
 addModalEventListeners(modalImage, popupImage, closeButtonImage);
 
-// Обработчик «отправки» формы
+// Обработчики «отправки» формы
 formElementAdd.addEventListener("submit", addFormSubmit);
 closeButtonImage.addEventListener("click", closeModalImage);
 
-//Инициализация карточек
-initialCards.forEach((cardData) => {
-  const cardElement = createCard(
-    cardData,
-    removeCard,
-    openModalImage,
-    handleLikeClick
-  );
-  placesList.append(cardElement);
-});
+//Вызов функций
+enableValidation();
 
-//Export
-export {
-  nameInputEdit,
-  jobInputEdit,
-  nameProfile,
-  jobProfile,
-  nameInputAdd,
-  formElementAdd,
-  jobInputAdd,
-  modalAdd,
-  modalEdit,
-  modalImage,
-  popupImage,
-  popupImageName,
-  placesList,
-};
+// Обработка основной информации
+
+promiseAll().then(([info, card]) => {
+  nameProfile.textContent = info.name;
+  jobProfile.textContent = info.about;
+  profileAvatar.src = info.avatar;
+
+  const initialCards = card;
+  initialCards.forEach((cardData) => {
+    const cardElement = createCard(
+      cardData,
+      removeCard,
+      openModalImage,
+      handleLikeClick
+    );
+    placesList.append(cardElement);
+  });
+});
