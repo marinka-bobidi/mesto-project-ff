@@ -1,5 +1,5 @@
 import { onOpenCallback } from "../components/modalEdit.js";
-import { clearValidation } from "./validity.js";
+import { clearValidation, toggleButtonState } from "./validity.js";
 
 // Установка модификатора при загрузке приложения
 document.querySelectorAll(".popup").forEach((popup) => {

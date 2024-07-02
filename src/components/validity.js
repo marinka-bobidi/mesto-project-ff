@@ -86,10 +86,12 @@ const toggleButtonState = (inputList, buttonElement) => {
   }
 };
 
-// Функция очищает сообщение об ошибке при закрвтии окна
+// Функция очищает сообщение об ошибке при закрытии окна
 const clearValidation = (modal) => {
   const popupForm = modal.querySelector(".popup__form");
   if (popupForm !== null) {
+    const buttonElement = popupForm.querySelector(".popup__button");
+    buttonElement.classList.add("popup__button_unactive");
     const inputList = popupForm.querySelectorAll(".popup__input");
     inputList.forEach((newInputList) => {
       hideInputError(popupForm, newInputList);
@@ -99,4 +101,4 @@ const clearValidation = (modal) => {
 };
 
 // Export
-export { enableValidation, clearValidation };
+export { enableValidation, clearValidation, toggleButtonState };

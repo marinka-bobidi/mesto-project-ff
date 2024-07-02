@@ -41,3 +41,7 @@
   transition: visibility 0s, background 0.3s;
   margin-top: 48px;
 }
+
+.popup__button_unactive:hover {
+  background-color: rgb(250, 250, 250);
+}
