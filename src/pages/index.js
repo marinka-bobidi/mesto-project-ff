@@ -17,12 +17,7 @@ import {
   modalImage,
   popupImage,
 } from "../components/modalImage.js";
-import {
-  createCard,
-  removeCard,
-  handleLikeClick,
-  placesList,
-} from "../components/card.js";
+import { createCard, removeCard, placesList } from "../components/card.js";
 import {
   onOpenCallback,
   modalEdit,
@@ -33,10 +28,10 @@ import { enableValidation } from "../components/validity.js";
 import { promiseAll, handelLikeCard } from "../components/api.js";
 import {
   modalAvatar,
-  closeModalAvatar,
   saveFormAvatar,
   formElementAvatar,
 } from "../components/modalAvatar.js";
+import { closeModalDelete, modalDelete } from "../components/modalDelete.js";
 
 //                                    actions
 // VAR modalAdd.js
@@ -46,7 +41,6 @@ const closeButtonAdd = modalAdd.querySelector(".popup__close");
 // VAR modalEdit.js
 const openButtonEdit = document.querySelector(".profile__edit-button");
 const closeButtonEdit = modalEdit.querySelector(".popup__close");
-// const profileAvatar = document.querySelector(".profile__image");
 
 //VAR Modalimage.js
 const closeButtonImage = modalImage.querySelector(".popup__close");
@@ -54,6 +48,12 @@ const closeButtonImage = modalImage.querySelector(".popup__close");
 //VAR MoadlAvatar.js
 const closeButtonAvatar = modalAvatar.querySelector(".popup__close");
 const formAvatar = document.querySelector(".profile__image");
+
+//VAR MoadlDelete.js
+const formDelete = modalDelete.querySelector(
+  '.popup__form[name="delete-button"]'
+);
+const closeButtonDelete = modalDelete.querySelector(".popup__close");
 
 //                               Вывести карточки на страницу
 //                                 Слушатели событий
@@ -74,10 +74,14 @@ addModalEventListeners(modalImage, popupImage, closeButtonImage);
 // Для modalAvatar.js
 addModalEventListeners(modalAvatar, formAvatar, closeButtonAvatar);
 
+// Для modalDelete
+addModalEventListeners(modalDelete, formDelete, closeButtonDelete);
+
 // Обработчики «отправки» формы
 formElementAdd.addEventListener("submit", addFormSubmit);
 closeButtonImage.addEventListener("click", closeModalImage);
 formElementAvatar.addEventListener("submit", saveFormAvatar);
+formDelete.addEventListener("submit", closeModalDelete);
 
 //Вызов функций
 enableValidation();

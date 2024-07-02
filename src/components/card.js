@@ -1,4 +1,5 @@
 import { deleteCard, handelLikeCard, deleteLikeCard } from "./api";
+import { openModalDelete, closeModalDelete, modalDelete } from "./modalDelete";
 
 // VAR card.js
 const cardTemplate = document.querySelector("#card-template");
@@ -9,8 +10,8 @@ function createCard(cardData, removeCard, handleImageClick, ownerID) {
   const cardClone = cardTemplate.content.cloneNode(true);
   const cardTitle = cardClone.querySelector(".card__title");
   const cardImage = cardClone.querySelector(".card__image");
-  const deleteButton = cardClone.querySelector(".card__delete-button");
   const cardElement = cardClone.querySelector(".card");
+  const deleteButton = cardClone.querySelector(".card__delete-button");
   const likeButton = cardClone.querySelector(".card__like-button");
   const countLikes = cardClone.querySelector(".like__count");
   const ID = cardData._id;
@@ -66,8 +67,14 @@ function handleLikeClick(event) {
 
 //  Функция удаления карточки
 function removeCard(cardElement, ID) {
-  cardElement.remove();
-  deleteCard(ID);
+  // VAR modalDelete.js
+  const deleteButton = modalDelete.querySelector(".popup__button");
+  openModalDelete();
+  deleteButton.addEventListener("click", () => {
+    cardElement.remove();
+    deleteCard(ID);
+    closeModalDelete();
+  });
 }
 
-export { createCard, removeCard, handleLikeClick, placesList };
+export { createCard, removeCard, placesList, modalDelete };

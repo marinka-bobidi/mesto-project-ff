@@ -1,5 +1,5 @@
 import { onOpenCallback } from "../components/modalEdit.js";
-import { clearValidation, toggleButtonState } from "./validity.js";
+import { clearValidation } from "./validity.js";
 
 // Установка модификатора при загрузке приложения
 document.querySelectorAll(".popup").forEach((popup) => {
@@ -26,7 +26,6 @@ function closeModal(modal) {
 function closeModalByEsc(evt) {
   if (evt.key === "Escape") {
     const modal = document.querySelector(".popup_is-opened");
-
     closeModal(modal);
   }
 }

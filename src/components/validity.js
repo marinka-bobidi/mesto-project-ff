@@ -89,7 +89,7 @@ const toggleButtonState = (inputList, buttonElement) => {
 // Функция очищает сообщение об ошибке при закрытии окна
 const clearValidation = (modal) => {
   const popupForm = modal.querySelector(".popup__form");
-  if (popupForm !== null) {
+  if (popupForm !== null && modal.dataset.modalType !== "delete") {
     const buttonElement = popupForm.querySelector(".popup__button");
     buttonElement.classList.add("popup__button_unactive");
     const inputList = popupForm.querySelectorAll(".popup__input");
