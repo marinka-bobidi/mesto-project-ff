@@ -101,4 +101,4 @@ const clearValidation = (modal) => {
 };
 
 // Export
-export { enableValidation, clearValidation, toggleButtonState };
+export { enableValidation, clearValidation };

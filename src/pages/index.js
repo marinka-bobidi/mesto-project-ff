@@ -25,7 +25,7 @@ import {
   jobProfile,
 } from "../components/modalEdit.js";
 import { enableValidation } from "../components/validity.js";
-import { promiseAll, handelLikeCard } from "../components/api.js";
+import { promiseAll } from "../components/api.js";
 import {
   modalAvatar,
   saveFormAvatar,
@@ -104,5 +104,4 @@ promiseAll().then(([info, card]) => {
     );
     placesList.append(cardElement);
   });
-  handelLikeCard(card);
 });

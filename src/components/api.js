@@ -1,19 +1,41 @@
 // Функция запроса основной информации
+const baseHttp = "https://nomoreparties.co/v1/wff-cohort-17/";
+const headers = {
+  authorization: "15c26702-9c69-418c-9ef2-8c38a85250dc",
+  "Content-Type": "application/json",
+};
+
 function getInformation() {
-  return fetch("https://nomoreparties.co/v1/wff-cohort-17/users/me", {
-    headers: {
-      authorization: "15c26702-9c69-418c-9ef2-8c38a85250dc",
-    },
-  }).then((res) => res.json());
+  return fetch(baseHttp + "users/me", {
+    headers: headers,
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      // если ошибка, отклоняем промис
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
+    .catch((err) => {
+      console.log(err); // выводим ошибку в консоль
+    });
 }
 
 // Функция запроса карточек
 function getCards() {
-  return fetch("https://nomoreparties.co/v1/wff-cohort-17/cards", {
-    headers: {
-      authorization: "15c26702-9c69-418c-9ef2-8c38a85250dc",
-    },
-  }).then((res) => res.json());
+  return fetch(baseHttp + "cards", {
+    headers: headers,
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      // если ошибка, отклоняем промис
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
+    .catch((err) => {
+      console.log(err); // выводим ошибку в консоль
+    });
 }
 
 // Функция проверки запросов
@@ -23,43 +45,53 @@ function promiseAll() {
 
 // Функция сохранения информации
 function saveСhanges(nameInputEdit, jobInputEdit) {
-  return fetch("https://nomoreparties.co/v1/wff-cohort-17/users/me", {
+  return fetch(baseHttp + "users/me", {
     method: "PATCH",
-    headers: {
-      authorization: "15c26702-9c69-418c-9ef2-8c38a85250dc",
-      "Content-Type": "application/json",
-    },
+    headers: headers,
     body: JSON.stringify({
       name: nameInputEdit,
       about: jobInputEdit,
     }),
-  }).then((res) => res.json());
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      // если ошибка, отклоняем промис
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
+    .catch((err) => {
+      console.log(err); // выводим ошибку в консоль
+    });
 }
 
 // Функция сохранения новой карточки
 function saveCard(newCardData) {
-  return fetch("https://nomoreparties.co/v1/wff-cohort-17/cards", {
+  return fetch(baseHttp + "cards", {
     method: "POST",
-    headers: {
-      authorization: "15c26702-9c69-418c-9ef2-8c38a85250dc",
-      "Content-Type": "application/json",
-    },
+    headers: headers,
     body: JSON.stringify({
       name: newCardData.name,
       link: newCardData.link,
     }),
-  }).then((value) => {
-    return value.json();
-  });
+  })
+    .then((value) => {
+      if (value.ok) {
+        return value.json();
+      }
+      // если ошибка, отклоняем промис
+      return Promise.reject(`Ошибка: ${value.status}`);
+    })
+    .catch((err) => {
+      console.log(err); // выводим ошибку в консоль
+    });
 }
 
 // Функция удаления карточки
 function deleteCard(ID) {
   fetch(`https://nomoreparties.co/v1/wff-cohort-17/cards/${ID}`, {
     method: "DELETE",
-    headers: {
-      authorization: "15c26702-9c69-418c-9ef2-8c38a85250dc",
-    },
+    headers: headers,
   });
 }
 
@@ -67,34 +99,57 @@ function deleteCard(ID) {
 function handelLikeCard(ID) {
   return fetch(`https://nomoreparties.co/v1/wff-cohort-17/cards/likes/${ID}`, {
     method: "PUT",
-    headers: {
-      authorization: "15c26702-9c69-418c-9ef2-8c38a85250dc",
-    },
-  }).then((res) => res.json());
+    headers: headers,
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      // если ошибка, отклоняем промис
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
+    .catch((err) => {
+      console.log(err); // выводим ошибку в консоль
+    });
 }
 
 // Удаления лайка карточки
 function deleteLikeCard(ID) {
   return fetch(`https://nomoreparties.co/v1/wff-cohort-17/cards/likes/${ID}`, {
     method: "DELETE",
-    headers: {
-      authorization: "15c26702-9c69-418c-9ef2-8c38a85250dc",
-    },
-  }).then((res) => res.json());
+    headers: headers,
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      // если ошибка, отклоняем промис
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
+    .catch((err) => {
+      console.log(err); // выводим ошибку в консоль
+    });
 }
 
 // Обновление аватара пользователя
 function updateAvatar(profileAvatar) {
   return fetch(`https://nomoreparties.co/v1/wff-cohort-17/users/me/avatar`, {
     method: "PATCH",
-    headers: {
-      authorization: "15c26702-9c69-418c-9ef2-8c38a85250dc",
-      "Content-Type": "application/json",
-    },
+    headers: headers,
     body: JSON.stringify({
       avatar: profileAvatar,
     }),
-  }).then((res) => res.json());
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      // если ошибка, отклоняем промис
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
+    .catch((err) => {
+      console.log(err); // выводим ошибку в консоль
+    });
 }
 
 // Export

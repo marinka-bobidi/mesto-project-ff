@@ -1,8 +1,7 @@
 import { closeModal } from "../components/modal.js";
 import { createCard, removeCard, placesList } from "../components/card.js";
 import { openModalImage } from "../components/modalImage.js";
-import { saveCard } from "./api.js";
-import { getInformation } from "../components/api.js";
+import { saveCard, getInformation } from "./api.js";
 
 // VAR modalAdd.js
 const modalAdd = document.querySelector(".popup_type_new-card");

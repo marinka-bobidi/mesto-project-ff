@@ -77,4 +77,4 @@ function removeCard(cardElement, ID) {
   });
 }
 
-export { createCard, removeCard, placesList, modalDelete };
+export { createCard, removeCard, placesList };
