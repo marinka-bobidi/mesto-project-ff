@@ -1,41 +1,30 @@
-// Функция запроса основной информации
+// VAR api.js
 const baseHttp = "https://nomoreparties.co/v1/wff-cohort-17/";
 const headers = {
   authorization: "15c26702-9c69-418c-9ef2-8c38a85250dc",
   "Content-Type": "application/json",
 };
 
+// Функция проверки ответа сервера
+function getResponseData(res) {
+  if (!res.ok) {
+    return Promise.reject(`Ошибка: ${res.status}`);
+  }
+  return res.json();
+}
+
+// Функция запроса основной информации
 function getInformation() {
   return fetch(baseHttp + "users/me", {
     headers: headers,
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err); // выводим ошибку в консоль
-    });
+  }).then(getResponseData);
 }
 
 // Функция запроса карточек
 function getCards() {
   return fetch(baseHttp + "cards", {
     headers: headers,
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err); // выводим ошибку в консоль
-    });
+  }).then(getResponseData);
 }
 
 // Функция проверки запросов
@@ -52,17 +41,7 @@ function saveСhanges(nameInputEdit, jobInputEdit) {
       name: nameInputEdit,
       about: jobInputEdit,
     }),
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err); // выводим ошибку в консоль
-    });
+  }).then(getResponseData);
 }
 
 // Функция сохранения новой карточки
@@ -74,22 +53,12 @@ function saveCard(newCardData) {
       name: newCardData.name,
       link: newCardData.link,
     }),
-  })
-    .then((value) => {
-      if (value.ok) {
-        return value.json();
-      }
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${value.status}`);
-    })
-    .catch((err) => {
-      console.log(err); // выводим ошибку в консоль
-    });
+  }).then(getResponseData);
 }
 
 // Функция удаления карточки
 function deleteCard(ID) {
-  fetch(`https://nomoreparties.co/v1/wff-cohort-17/cards/${ID}`, {
+  fetch(baseHttp + `cards/${ID}`, {
     method: "DELETE",
     headers: headers,
   });
@@ -97,59 +66,29 @@ function deleteCard(ID) {
 
 // Постановка лайка карточки
 function handelLikeCard(ID) {
-  return fetch(`https://nomoreparties.co/v1/wff-cohort-17/cards/likes/${ID}`, {
+  return fetch(baseHttp + `likes/${ID}`, {
     method: "PUT",
     headers: headers,
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err); // выводим ошибку в консоль
-    });
+  }).then(getResponseData);
 }
 
 // Удаления лайка карточки
 function deleteLikeCard(ID) {
-  return fetch(`https://nomoreparties.co/v1/wff-cohort-17/cards/likes/${ID}`, {
+  return fetch(baseHttp + `cards/likes/${ID}`, {
     method: "DELETE",
     headers: headers,
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err); // выводим ошибку в консоль
-    });
+  }).then(getResponseData);
 }
 
 // Обновление аватара пользователя
 function updateAvatar(profileAvatar) {
-  return fetch(`https://nomoreparties.co/v1/wff-cohort-17/users/me/avatar`, {
+  return fetch(baseHttp + "users/me/avatar", {
     method: "PATCH",
     headers: headers,
     body: JSON.stringify({
       avatar: profileAvatar,
     }),
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err); // выводим ошибку в консоль
-    });
+  }).then(getResponseData);
 }
 
 // Export
