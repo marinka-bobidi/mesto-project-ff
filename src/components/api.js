@@ -58,7 +58,7 @@ function saveCard(newCardData) {
 
 // Функция удаления карточки
 function deleteCard(ID) {
-  fetch(baseHttp + `cards/${ID}`, {
+  return fetch(baseHttp + `cards/${ID}`, {
     method: "DELETE",
     headers: headers,
   });
@@ -66,7 +66,7 @@ function deleteCard(ID) {
 
 // Постановка лайка карточки
 function handelLikeCard(ID) {
-  return fetch(baseHttp + `likes/${ID}`, {
+  return fetch(baseHttp + `cards/likes/${ID}`, {
     method: "PUT",
     headers: headers,
   }).then(getResponseData);

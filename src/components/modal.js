@@ -1,25 +1,13 @@
-import { onOpenCallback } from "../components/modalEdit.js";
-import { clearValidation } from "./validity.js";
-
-// Установка модификатора при загрузке приложения
-document.querySelectorAll(".popup").forEach((popup) => {
-  popup.classList.add("popup_is-animated");
-});
-
 // Открытие окна
 function openModal(modal) {
   modal.classList.add("popup_is-opened");
   document.addEventListener("keydown", closeModalByEsc);
-  if (modal.dataset.modalType === "edit") {
-    onOpenCallback();
-  }
 }
 
 // Закрытие окна
 function closeModal(modal) {
   modal.classList.remove("popup_is-opened");
   document.removeEventListener("keydown", closeModalByEsc);
-  clearValidation(modal);
 }
 
 // closeModalByEsc
@@ -31,12 +19,17 @@ function closeModalByEsc(evt) {
 }
 
 // Слушатели событий
-function addModalEventListeners(modal, openButton, closeButton) {
-  openButton.addEventListener("click", () => openModal(modal));
+function addModalEventListeners(
+  modal,
+  openButton,
+  closeButton,
+  openModalFunction
+) {
+  openButton.addEventListener("click", () => openModalFunction(modal));
   closeButton.addEventListener("click", () => closeModal(modal));
 
   // Закрытие по оверлей
-  document.addEventListener("click", (evt) => {
+  modal.addEventListener("click", (evt) => {
     if (evt.target === modal) {
       closeModal(modal);
     }
