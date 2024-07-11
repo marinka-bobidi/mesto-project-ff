@@ -23,7 +23,7 @@ function addModalEventListeners(
   modal,
   openButton,
   closeButton,
-  openModalFunction
+  openModalFunction = function () {}
 ) {
   openButton.addEventListener("click", () => openModalFunction(modal));
   closeButton.addEventListener("click", () => closeModal(modal));

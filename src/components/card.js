@@ -4,7 +4,7 @@ import { handelLikeCard, deleteLikeCard } from "./api";
 const cardTemplate = document.querySelector("#card-template");
 
 // Функция создания карточки
-function createCard(cardData, removeCard, handleImageClick, ownerID) {
+function createCard(cardData, openModalDelete, handleImageClick, ownerID) {
   const cardClone = cardTemplate.content.cloneNode(true);
   const cardTitle = cardClone.querySelector(".card__title");
   const cardImage = cardClone.querySelector(".card__image");
@@ -36,8 +36,8 @@ function createCard(cardData, removeCard, handleImageClick, ownerID) {
   likeButton.addEventListener("click", () => {
     handleLikeClick(likeButton, ID);
   });
-  deleteButton.addEventListener("click", function (evt) {
-    console.log(removeCard(cardElement, ID));
+  deleteButton.addEventListener("click", () => {
+    openModalDelete(cardElement, ID);
   });
 
   return cardClone;

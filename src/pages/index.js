@@ -57,7 +57,7 @@ const modalAvatar = document.querySelector(".popup_type_edit_avatar");
 const saveButtonAvatar = modalAvatar.querySelector(".popup__button");
 const inputModalAvatarList = modalAvatar.querySelectorAll(".popup__input");
 const closeButtonAvatar = modalAvatar.querySelector(".popup__close");
-const formAvatar = document.querySelector(".profile__image");
+const formAvatar = modalAvatar.querySelector(".popup__form");
 const inputAvatar = modalAvatar.querySelector(".popup__input_type_avatar");
 const profileImage = document.querySelector(".profile__image");
 const formElementAvatar = document.querySelector(
@@ -65,12 +65,12 @@ const formElementAvatar = document.querySelector(
 );
 
 let ownerID;
+let ID_card;
+let cardElement_card;
 
 //VAR MoadlDelete
 const modalDelete = document.querySelector(".popup_type_delete");
-const formDelete = modalDelete.querySelector(
-  '.popup__form[name="delete-button"]'
-);
+const formDelete = document.querySelector('.popup__form[name="delete-button"]');
 const closeButtonDelete = modalDelete.querySelector(".popup__close");
 const deleteButton = modalDelete.querySelector(".popup__button");
 
@@ -89,11 +89,6 @@ const settings = {
   errorElementClass: "form__input-error_active",
   buttonUnactiveClass: "popup__button_unactive",
   errorTag: "-error",
-  modalCheck: [
-    [handleFormSubmit, "popup_type_edit"],
-    [addFormSubmit, "popup_type_new-card"],
-    [saveFormAvatar, "popup_type_edit_avatar"],
-  ],
 };
 //                                      ОКНО ДОБАВЛЕНИЯ КАРТОЧКИ
 
@@ -103,7 +98,7 @@ function openModalAdd() {
   inputModalAddList.forEach((input) => {
     input.value = "";
   });
-  saveButtonAdd.removeEventListener("click", addFormSubmit);
+  saveButtonAdd.disabled = true;
   clearValidation(modalAdd, settings);
   openModal(modalAdd);
 }
@@ -113,7 +108,7 @@ function addFormSubmit(evt) {
   evt.preventDefault();
   const addButton = formElementAdd.querySelector("button");
   addButton.textContent = "Сохранение...";
-  saveButtonAdd.removeEventListener("click", addFormSubmit);
+  saveButtonAdd.disabled = true;
   const newCardData = {
     name: nameInputAdd.value,
     link: linkInputAdd.value,
@@ -122,12 +117,11 @@ function addFormSubmit(evt) {
     .then((value) => {
       const newCardElement = createCard(
         value,
-        removeCard,
+        openModalDelete,
         openModalImage,
         ownerID
       );
       placesList.prepend(newCardElement);
-      formElementAdd.reset();
       closeModal(modalAdd);
     })
     .finally(() => {
@@ -138,14 +132,11 @@ function addFormSubmit(evt) {
     });
 }
 
-// Слушатель событий для modalAdd
-addModalEventListeners(modalAdd, openButtonAdd, closeButtonAdd, openModalAdd);
-
 //                                      ОКНО РЕДАКТИРОВАНИЯ ПРОФИЛЯ
 
 // Открытие модального окна аватара
 function openModalEdit() {
-  saveButtonEdit.removeEventListener("click", handleFormSubmit);
+  saveButtonEdit.disabled = true;
   // Очистка текста ошибок
   clearValidation(modalEdit, settings);
   openModal(modalEdit);
@@ -160,7 +151,7 @@ function onOpenCallback() {
 }
 
 // Устанавливает введеное пользователем значение на страницу
-function handleFormSubmit(evt) {
+function editFormSubmit(evt) {
   evt.preventDefault();
   const editButton = formElementEdit.querySelector("button");
   editButton.textContent = "Сохранение...";
@@ -180,14 +171,6 @@ function handleFormSubmit(evt) {
     });
 }
 
-// Слушатели событий для modalEdit
-addModalEventListeners(
-  modalEdit,
-  openButtonEdit,
-  closeButtonEdit,
-  openModalEdit
-);
-
 //                                     ОКНО ПРИ ОТКРЫТИИ КАРТОЧКИ
 
 // Открытие модального окна карточки
@@ -196,28 +179,16 @@ function openModalImage(event) {
   const targetCard = targetImage.closest(".card"); // карточка, содержащая изображение
   const targetTitle = targetCard.querySelector(".card__title"); // заголовок карточки
   popupImage.src = targetImage.src; // устанавливаем src изображения в модальном окне
+  popupImage.alt = targetTitle.textContent; // устанавливаем alt текст из заголовка карточки
   popupImageName.textContent = targetTitle.textContent; // устанавливаем текст подписи в модальном окне
   openModal(modalImage);
 }
-
-// Закрытия модального окна карточки
-function closeModalImage() {
-  closeModal(modalImage);
-}
-
-// Слушатели событий для modalImage
-addModalEventListeners(
-  modalImage,
-  popupImage,
-  closeButtonImage,
-  openModalImage
-);
 
 //                                       ОКНО АВАТАРА ПРОФИЛЯ
 
 // Открытие модального окна аватара
 function openModalAvatar() {
-  saveButtonAvatar.removeEventListener("click", saveFormAvatar);
+  saveButtonAvatar.disabled = true;
   // Очистка текста ошибок
   inputModalAvatarList.forEach((input) => {
     input.value = "";
@@ -245,72 +216,33 @@ function saveFormAvatar(evt) {
     });
 }
 
-// Для modalAvatar
-addModalEventListeners(
-  modalAvatar,
-  formAvatar,
-  closeButtonAvatar,
-  openModalAvatar
-);
-
 //                                     ОКНО ПОТВЕРЖДЕНИЯ УДАЛЕНИЯ
-
 // Открытие модального окна уточнения
-function openModalDelete() {
+function openModalDelete(cardElement, ID) {
+  ID_card = ID;
+  cardElement_card = cardElement;
   openModal(modalDelete);
 }
 
-// Закрытие модального окна уточнения
-function closeModalDelete() {
-  closeModal(modalDelete);
-}
-
-// Для modalDelete
-addModalEventListeners(
-  modalDelete,
-  formDelete,
-  closeButtonDelete,
-  openModalDelete
-);
-
 //                                      Функция удаления карточки
-function removeCard(cardElement, ID) {
-  // VAR modalDelete
-  openModalDelete();
-  deleteButton.addEventListener("click", removeCardListener);
-  closeButtonDelete.addEventListener("click", () => {
-    deleteButton.removeEventListener("click", removeCardListener);
-  });
-  modalDelete.addEventListener("click", (evt) => {
-    if (evt.target === modalDelete) {
-      deleteButton.removeEventListener("click", removeCardListener);
-    }
-  });
-  function removeCardListener(evt) {
-    deleteCard(ID)
-      .then((evt) => {
-        cardElement.remove();
-        closeModalDelete();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+function removeCardSubmit(evt) {
+  evt.preventDefault();
+  deleteCard(ID_card)
+    .then(() => {
+      cardElement_card.remove();
+      closeModal(modalDelete);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
-
-//Вызов функций
-enableValidation(settings);
-
-// Обработчики «отправки» формы
-closeButtonImage.addEventListener("click", closeModalImage);
-formDelete.addEventListener("submit", closeModalDelete);
 
 //                                    Обработка основной информации
 promiseAll()
   .then(([info, card]) => {
     nameProfile.textContent = info.name;
     jobProfile.textContent = info.about;
-    formAvatar.src = info.avatar;
+    profileImage.src = info.avatar;
 
     ownerID = info._id;
     const initialCards = card;
@@ -318,12 +250,49 @@ promiseAll()
     initialCards.forEach((cardData) => {
       const cardElement = createCard(
         cardData,
-        removeCard,
+        openModalDelete,
         openModalImage,
         ownerID
       );
       placesList.append(cardElement);
     });
+
+    // Функции после загрузки
+    // Обработчики отправки формы для трех окон
+    formElementAvatar.addEventListener("submit", saveFormAvatar);
+    formElementEdit.addEventListener("submit", editFormSubmit);
+    formElementAdd.addEventListener("submit", addFormSubmit);
+    formDelete.addEventListener("submit", removeCardSubmit);
+
+    //Вызов функций
+    enableValidation(settings);
+
+    // Для modalDelete
+    addModalEventListeners(modalDelete, deleteButton, closeButtonDelete);
+    // Слушатель событий для modalAdd
+    addModalEventListeners(
+      modalAdd,
+      openButtonAdd,
+      closeButtonAdd,
+      openModalAdd
+    );
+
+    // Слушатели событий для modalEdit
+    addModalEventListeners(
+      modalEdit,
+      openButtonEdit,
+      closeButtonEdit,
+      openModalEdit
+    );
+    // Слушатели событий для modalImage
+    addModalEventListeners(modalImage, popupImage, closeButtonImage);
+    // Для modalAvatar
+    addModalEventListeners(
+      modalAvatar,
+      profileImage,
+      closeButtonAvatar,
+      openModalAvatar
+    );
   })
   .catch((err) => {
     console.log(err);

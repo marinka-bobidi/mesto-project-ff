@@ -56,9 +56,6 @@ const setEventListeners = (formElement, settings) => {
 const enableValidation = (settings) => {
   const formList = Array.from(document.querySelectorAll(settings.formElement));
   formList.forEach((formElement) => {
-    formElement.addEventListener("submit", (evt) => {
-      evt.preventDefault();
-    });
     setEventListeners(formElement, settings);
   });
 };
@@ -70,30 +67,15 @@ const hasInvalidInput = (inputList) => {
   });
 };
 
-// Функция определяет, какой обработчик отправки формы использовать в зависимости от типа модального окна
-const formSubmitcheck = (buttonElement, settings) => {
-  const modal = buttonElement.closest(settings.modal);
-  const modalMap = settings.modalCheck;
-  let choice;
-  modalMap.forEach((value) => {
-    if (modal.classList.contains(value[1])) {
-      choice = value[0];
-    }
-  });
-  return choice;
-};
-
 // Функция переключает состояние кнопки на основе валидности ввода
 const toggleButtonState = (inputList, buttonElement, settings) => {
   // Cсылка на функцию обработчика события
-  const formSubmitHandler = formSubmitcheck(buttonElement, settings);
   if (hasInvalidInput(inputList)) {
     buttonElement.classList.add(settings.buttonUnactiveClass);
-
-    buttonElement.removeEventListener("click", formSubmitHandler);
+    buttonElement.disabled = true;
   } else {
     buttonElement.classList.remove(settings.buttonUnactiveClass);
-    buttonElement.addEventListener("click", formSubmitHandler);
+    buttonElement.disabled = false;
   }
 };
 
