@@ -84,6 +84,7 @@ const clearValidation = (modal, settings) => {
   const popupForm = modal.querySelector(settings.formElement);
   const buttonElement = popupForm.querySelector(settings.buttonElement);
   buttonElement.classList.add(settings.buttonUnactiveClass);
+  buttonElement.disabled = true;
   const inputList = popupForm.querySelectorAll(settings.inputElement);
   inputList.forEach((newInputList) => {
     hideInputError(popupForm, newInputList, settings);

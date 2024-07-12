@@ -95,10 +95,7 @@ const settings = {
 // Открытие модального окна аватара
 function openModalAdd() {
   // Очистка текста
-  inputModalAddList.forEach((input) => {
-    input.value = "";
-  });
-  saveButtonAdd.disabled = true;
+  formElementAdd.reset();
   clearValidation(modalAdd, settings);
   openModal(modalAdd);
 }
@@ -136,7 +133,6 @@ function addFormSubmit(evt) {
 
 // Открытие модального окна аватара
 function openModalEdit() {
-  saveButtonEdit.disabled = true;
   // Очистка текста ошибок
   clearValidation(modalEdit, settings);
   openModal(modalEdit);
@@ -188,11 +184,8 @@ function openModalImage(event) {
 
 // Открытие модального окна аватара
 function openModalAvatar() {
-  saveButtonAvatar.disabled = true;
   // Очистка текста ошибок
-  inputModalAvatarList.forEach((input) => {
-    input.value = "";
-  });
+  formElementAvatar.reset();
   clearValidation(modalAvatar, settings);
   openModal(modalAvatar);
 }
@@ -237,6 +230,38 @@ function removeCardSubmit(evt) {
     });
 }
 
+//                                    Установка слушателей
+// Обработчики отправки формы для трех окон
+formElementAvatar.addEventListener("submit", saveFormAvatar);
+formElementEdit.addEventListener("submit", editFormSubmit);
+formElementAdd.addEventListener("submit", addFormSubmit);
+formDelete.addEventListener("submit", removeCardSubmit);
+
+//Вызов функций
+enableValidation(settings);
+
+// Для modalDelete
+addModalEventListeners(modalDelete, deleteButton, closeButtonDelete);
+// Слушатель событий для modalAdd
+addModalEventListeners(modalAdd, openButtonAdd, closeButtonAdd, openModalAdd);
+
+// Слушатели событий для modalEdit
+addModalEventListeners(
+  modalEdit,
+  openButtonEdit,
+  closeButtonEdit,
+  openModalEdit
+);
+// Слушатели событий для modalImage
+addModalEventListeners(modalImage, popupImage, closeButtonImage);
+// Для modalAvatar
+addModalEventListeners(
+  modalAvatar,
+  profileImage,
+  closeButtonAvatar,
+  openModalAvatar
+);
+
 //                                    Обработка основной информации
 promiseAll()
   .then(([info, card]) => {
@@ -256,43 +281,6 @@ promiseAll()
       );
       placesList.append(cardElement);
     });
-
-    // Функции после загрузки
-    // Обработчики отправки формы для трех окон
-    formElementAvatar.addEventListener("submit", saveFormAvatar);
-    formElementEdit.addEventListener("submit", editFormSubmit);
-    formElementAdd.addEventListener("submit", addFormSubmit);
-    formDelete.addEventListener("submit", removeCardSubmit);
-
-    //Вызов функций
-    enableValidation(settings);
-
-    // Для modalDelete
-    addModalEventListeners(modalDelete, deleteButton, closeButtonDelete);
-    // Слушатель событий для modalAdd
-    addModalEventListeners(
-      modalAdd,
-      openButtonAdd,
-      closeButtonAdd,
-      openModalAdd
-    );
-
-    // Слушатели событий для modalEdit
-    addModalEventListeners(
-      modalEdit,
-      openButtonEdit,
-      closeButtonEdit,
-      openModalEdit
-    );
-    // Слушатели событий для modalImage
-    addModalEventListeners(modalImage, popupImage, closeButtonImage);
-    // Для modalAvatar
-    addModalEventListeners(
-      modalAvatar,
-      profileImage,
-      closeButtonAvatar,
-      openModalAvatar
-    );
   })
   .catch((err) => {
     console.log(err);
