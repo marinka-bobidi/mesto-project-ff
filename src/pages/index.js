@@ -19,9 +19,7 @@ import {
 // VAR modalAdd
 const modalAdd = document.querySelector(".popup_type_new-card");
 const openButtonAdd = document.querySelector(".profile__add-button");
-const saveButtonAdd = modalAdd.querySelector(".popup__button");
 const closeButtonAdd = modalAdd.querySelector(".popup__close");
-const inputModalAddList = modalAdd.querySelectorAll(".popup__input");
 const formElementAdd = modalAdd.querySelector('.popup__form[name="new-place"]');
 const nameInputAdd = formElementAdd.querySelector(
   ".popup__input_type_card-name"
@@ -31,7 +29,6 @@ const placesList = document.querySelector(".places__list");
 
 // VAR modalEdit
 const modalEdit = document.querySelector(".popup_type_edit");
-const saveButtonEdit = modalEdit.querySelector(".popup__button");
 const openButtonEdit = document.querySelector(".profile__edit-button");
 const closeButtonEdit = modalEdit.querySelector(".popup__close");
 const formElementEdit = modalEdit.querySelector(
@@ -54,10 +51,7 @@ const popupImageName = modalImage.querySelector(".popup__caption");
 
 //VAR MoadlAvatar
 const modalAvatar = document.querySelector(".popup_type_edit_avatar");
-const saveButtonAvatar = modalAvatar.querySelector(".popup__button");
-const inputModalAvatarList = modalAvatar.querySelectorAll(".popup__input");
 const closeButtonAvatar = modalAvatar.querySelector(".popup__close");
-const formAvatar = modalAvatar.querySelector(".popup__form");
 const inputAvatar = modalAvatar.querySelector(".popup__input_type_avatar");
 const profileImage = document.querySelector(".profile__image");
 const formElementAvatar = document.querySelector(
@@ -105,7 +99,6 @@ function addFormSubmit(evt) {
   evt.preventDefault();
   const addButton = formElementAdd.querySelector("button");
   addButton.textContent = "Сохранение...";
-  saveButtonAdd.disabled = true;
   const newCardData = {
     name: nameInputAdd.value,
     link: linkInputAdd.value,
@@ -135,9 +128,9 @@ function addFormSubmit(evt) {
 function openModalEdit() {
   // Очистка текста ошибок
   clearValidation(modalEdit, settings);
+  onOpenCallback();
   openModal(modalEdit);
   // Установка актуальных данных в форму
-  onOpenCallback();
 }
 
 // Сохранение актульных значений
